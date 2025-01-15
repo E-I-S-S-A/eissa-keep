@@ -1,26 +1,14 @@
-import { useEffect, useState } from "react";
-import useUserHook from "../../hooks/useUserHook";
-import { User } from "../../entities/User";
+import Navbar from "../../components/Navbar/Navbar";
+import styles from "./Dashboard.module.css"
 
 const Dashboard = () => {
 
-    const [data, setData] = useState<User | null>(null)
-    const { getAndSetUser } = useUserHook()
 
-    const getUser = async () => {
-        try {
-            const user = await getAndSetUser();
-            console.log(user)
-            setData(user)
-        } catch (error) {
-            console.log(error)
-        }
-    };
+    return <>
+        <Navbar />
+        <div className={styles.main_container}>kKe</div>
 
-    useEffect(() => {
-        getUser();
-    }, [])
-    return <div>{data ? JSON.stringify(data) : "Not"}</div>;
+    </>
 };
 
 export default Dashboard;

@@ -1,0 +1,4 @@
+.main_container {
+    background-color: var(--dark-grey);
+    height: calc(100dvh - 4rem);
+}
