@@ -17,5 +17,6 @@ code {
 :root {
   --dark-grey: #202124;
   --light-grey: #525355;
-  --white: #ffffff
+  --white: #ffffff;
+  --brand-color: #FBBC04;
 }
