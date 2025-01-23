@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Card from "./Card/Card";
 import styles from "./Dashboard.module.css"
 import { Keep } from "../../models/keep";
+import { EissaButton, EissaModal } from "react-reusable-elements";
 
 const Dashboard = () => {
 
@@ -109,7 +110,6 @@ const Dashboard = () => {
         }
     ]);
 
-
     return <>
         <Navbar />
         <div className={styles.main_container}>
@@ -117,14 +117,11 @@ const Dashboard = () => {
                 {
                     allKeeps.map((keep) => {
                         return <Card keep={keep} />
+
                     })
                 }
             </div>
-            <div className={styles.modal}>
-
-            </div>
         </div>
-
     </>
 };
 

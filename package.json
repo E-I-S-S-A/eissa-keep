@@ -13,13 +13,13 @@
         "ajv": "^8.17.1",
         "react": "^18.0.0",
         "react-dom": "^18.0.0",
-        "react-reusable-elements": "^1.1.2",
+        "react-reusable-elements": "^1.2.2",
         "react-scripts": "5.0.1",
         "typescript": "^4.9.5",
         "web-vitals": "^2.1.4"
     },
     "scripts": {
-        "start": "react-scripts start",
+        "start": "set PORT=3001 && react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
