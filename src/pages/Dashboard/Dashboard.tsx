@@ -4,6 +4,7 @@ import Card from "./Card/Card";
 import styles from "./Dashboard.module.css"
 import { Keep } from "../../models/keep";
 import { EissaButton, EissaModal } from "react-reusable-elements";
+import KeepModal from "./KeepModal/KeepModal";
 
 const Dashboard = () => {
 
@@ -110,21 +111,45 @@ const Dashboard = () => {
         }
     ]);
 
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+    const [selectedKeep, setSelectedKeep] = useState<Keep | null>(null)
+
+    const editKeep = (keep: Keep) => {
+        setSelectedKeep(keep);
+    }
+
+    useEffect(() => {
+        if (selectedKeep) {
+            openModal();
+        }
+    }, [selectedKeep])
+
+    const openModal = () => {
+        setIsModalVisible(true)
+    }
+
+    const closeModal = () => {
+        setIsModalVisible(false);
+        setSelectedKeep(null);
+    }
+
     return <>
         <Navbar />
         <div className={styles.new_keep}>
-            <EissaButton label="╋" />
+            <EissaButton label="╋" onClick={openModal} />
         </div>
         <div className={styles.main_container}>
             <div className={styles.card_container}>
                 {
                     allKeeps.map((keep) => {
-                        return <Card keep={keep} />
-
+                        return <div key={keep.keepId} className={styles.card_wrapper} onClick={() => editKeep(keep)}>
+                            <Card keep={keep} />
+                        </div>
                     })
                 }
             </div>
         </div>
+        <KeepModal isModalVisible={isModalVisible} keep={selectedKeep} onClose={closeModal} />
     </>
 };
 

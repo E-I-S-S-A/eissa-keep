@@ -14,8 +14,16 @@
     height: 100%;
 }
 
-.new_keep{
+.new_keep {
     position: absolute;
     bottom: 3rem;
     right: 5rem;
+}
+
+.card_wrapper {
+    grid-row: span 10;
+}
+
+.card_wrapper:nth-child(odd) {
+    grid-row: span 15;
 }

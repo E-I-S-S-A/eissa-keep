@@ -2,27 +2,33 @@ import { EissaButton, EissaInputField, EissaModal } from "react-reusable-element
 import { Keep } from "../../../models/keep";
 import styles from "./KeepModal.module.css";
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useEffect } from "react";
 
 type KeepModalProps = {
-    keep: Keep,
+    keep: Keep | null,
     isModalVisible: boolean;
-    setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>
+    onClose: () => void
 }
 
 const KeepModal = (props: KeepModalProps) => {
-    const { keep, isModalVisible, setIsModalVisible } = props;
+    const { keep, isModalVisible, onClose } = props;
     const { register, handleSubmit, formState: { errors, touchedFields }, reset } = useForm<Keep>({
         mode: "all",
-        defaultValues: keep
     });
 
-    const onSubmit: SubmitHandler<Keep> = (data) => {
-        closeModal()
-    };
+    useEffect(() => {
+        if (keep?.keepId)
+            reset(keep);
+        else {
+            setTimeout(() => {
+                reset({ keepId: "" });
+            }, 500)
+        }
+    }, [keep])
 
-    const closeModal = () => {
-        setIsModalVisible(false)
-    }
+    const onSubmit: SubmitHandler<Keep> = (data) => {
+        onClose()
+    };
 
     const modalContent = () => <div className={styles.main_container}>
         <form onSubmit={handleSubmit(onSubmit)}>
