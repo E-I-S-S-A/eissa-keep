@@ -1,0 +1,7 @@
+.main_container{
+    background-color: var(--dark-grey);
+    padding: 1rem;
+    border-radius: 8px;
+    height: 60%;
+    width: 40%;
+}

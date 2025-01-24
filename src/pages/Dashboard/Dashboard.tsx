@@ -112,6 +112,9 @@ const Dashboard = () => {
 
     return <>
         <Navbar />
+        <div className={styles.new_keep}>
+            <EissaButton label="╋" />
+        </div>
         <div className={styles.main_container}>
             <div className={styles.card_container}>
                 {
