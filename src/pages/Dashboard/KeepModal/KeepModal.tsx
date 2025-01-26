@@ -2,7 +2,9 @@ import { EissaButton, EissaInputField, EissaModal } from "react-reusable-element
 import { Keep } from "../../../models/keep";
 import styles from "./KeepModal.module.css";
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 type KeepModalProps = {
     keep: Keep | null,
@@ -12,11 +14,12 @@ type KeepModalProps = {
 
 const KeepModal = (props: KeepModalProps) => {
     const { keep, isModalVisible, onClose } = props;
-    const { register, handleSubmit, formState: { errors, touchedFields }, reset } = useForm<Keep>({
+    const { register, handleSubmit, setValue, formState: { errors, touchedFields }, reset } = useForm<Keep>({
         mode: "all",
     });
 
     useEffect(() => {
+        console.log(keep)
         if (keep?.keepId)
             reset(keep);
         else {
@@ -24,23 +27,36 @@ const KeepModal = (props: KeepModalProps) => {
                 reset({ keepId: "" });
             }, 500)
         }
-    }, [keep])
+    }, [keep]);
 
     const onSubmit: SubmitHandler<Keep> = (data) => {
         onClose()
     };
 
-    const modalContent = () => <div className={styles.main_container}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <EissaInputField name="title" register={register} placeholder="Title" />
-            <EissaInputField name="description" register={register} placeholder="Your keep here.." />
-            <EissaButton label="Submit" type="submit" variant="primary" />
-        </form>
+    const handleChange = (currValue: string) => {
+        setValue("description", currValue)
+    }
 
-    </div>
-
-    return <EissaModal ModalContent={modalContent} isVisible={isModalVisible} />
-
-}
+    return (
+        <EissaModal
+            ModalContent={() => (
+                <div className={styles.main_container}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <EissaInputField name="title" register={register} placeholder="Title" varient="secondary" bg="var(--dark-grey)" fontColor="var(--white)" />
+                        <ReactQuill
+                            theme="snow"
+                            value={keep?.description}
+                            onChange={handleChange}
+                            className={styles.quill}
+                            placeholder="Your Keep here..."
+                        />
+                        <EissaButton label="Submit" type="submit" variant="primary" />
+                    </form>
+                </div>
+            )}
+            isVisible={isModalVisible}
+        />
+    );
+};
 
 export default KeepModal;
