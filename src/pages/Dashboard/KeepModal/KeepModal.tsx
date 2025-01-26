@@ -28,14 +28,12 @@ const KeepModal = (props: KeepModalProps) => {
     });
     console.log(keep)
     useEffect(() => {
-        console.log({ keep })
         reset(keep || defaultValues);
     }, [keep]);
 
     const onSubmit: SubmitHandler<Keep> = (data) => {
 
         if (!data?.description && !data?.title) {
-            console.log("ok bre")
             onClose();
             reset(defaultValues);
             return;
@@ -61,7 +59,6 @@ const KeepModal = (props: KeepModalProps) => {
 
             return prev;
         })
-        reset(defaultValues);
         onClose()
     };
 
