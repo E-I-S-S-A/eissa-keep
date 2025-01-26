@@ -30,3 +30,40 @@ code {
 .quill>.ql-container>.ql-editor.ql-blank::before {
   color: var(--light-grey);
 }
+
+.ql-editor {
+  max-height: 14rem;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+  border: 3px solid #ddd;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-horizontal {
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb.horizontal {
+  background-color: #888;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}

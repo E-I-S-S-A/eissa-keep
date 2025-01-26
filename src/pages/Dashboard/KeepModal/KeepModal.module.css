@@ -6,7 +6,15 @@
     width: 40%;
 }
 
-.quill::placeholder {
-    color: white;
-    background-color: red;
+.main_container .form {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.main_container .actions {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row-reverse;
 }

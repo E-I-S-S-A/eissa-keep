@@ -41,16 +41,20 @@ const KeepModal = (props: KeepModalProps) => {
         <EissaModal
             ModalContent={() => (
                 <div className={styles.main_container}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <EissaInputField name="title" register={register} placeholder="Title" varient="secondary" bg="var(--dark-grey)" fontColor="var(--white)" />
-                        <ReactQuill
-                            theme="snow"
-                            value={keep?.description}
-                            onChange={handleChange}
-                            className={styles.quill}
-                            placeholder="Your Keep here..."
-                        />
-                        <EissaButton label="Submit" type="submit" variant="primary" />
+                    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+                        <div className={styles.fields}>
+                            <EissaInputField name="title" register={register} placeholder="Title" varient="secondary" bg="var(--dark-grey)" fontColor="var(--white)" />
+                            <ReactQuill
+                                theme="snow"
+                                value={keep?.description}
+                                onChange={handleChange}
+                                className={styles.quill}
+                                placeholder="Your Keep here..."
+                            />
+                        </div>
+                        <div className={styles.actions}>
+                            <EissaButton label="Save" type="submit" variant="primary" />
+                        </div>
                     </form>
                 </div>
             )}
