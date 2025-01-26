@@ -2,36 +2,69 @@ import { EissaButton, EissaInputField, EissaModal } from "react-reusable-element
 import { Keep } from "../../../models/keep";
 import styles from "./KeepModal.module.css";
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { v4 as uuidv4 } from 'uuid';
 
 type KeepModalProps = {
     keep: Keep | null,
     isModalVisible: boolean;
-    onClose: () => void
+    onClose: () => void;
+    setAllKeeps: React.Dispatch<React.SetStateAction<Keep[]>>
+}
+
+const defaultValues: Keep = {
+    description: "",
+    keepId: "",
+    title: "",
+    backgroundColor: ""
 }
 
 const KeepModal = (props: KeepModalProps) => {
-    const { keep, isModalVisible, onClose } = props;
-    const { register, handleSubmit, setValue, formState: { errors, touchedFields }, reset } = useForm<Keep>({
+    const { keep, isModalVisible, onClose, setAllKeeps } = props;
+    const { register, handleSubmit, setValue, formState: { isValid }, reset } = useForm<Keep>({
         mode: "all",
     });
-
+    console.log(keep)
     useEffect(() => {
-        console.log(keep)
-        if (keep?.keepId)
-            reset(keep);
-        else {
-            setTimeout(() => {
-                reset({ keepId: "" });
-            }, 500)
-        }
+        console.log({ keep })
+        reset(keep || defaultValues);
     }, [keep]);
 
     const onSubmit: SubmitHandler<Keep> = (data) => {
+
+        if (!data?.description && !data?.title) {
+            console.log("ok bre")
+            onClose();
+            reset(defaultValues);
+            return;
+        }
+
+        setAllKeeps(prev => {
+            let isFound = false;
+
+            for (let keep of prev) {
+                if (keep.keepId === data.keepId) {
+                    keep.description = data.description;
+                    keep.title = data.title;
+                    keep.backgroundColor = data.backgroundColor;
+                    isFound = true;
+                    break;
+                }
+            }
+
+            if (!isFound) {
+                data.keepId = uuidv4();
+                return [data, ...prev]
+            }
+
+            return prev;
+        })
+        reset(defaultValues);
         onClose()
     };
+
 
     const handleChange = (currValue: string) => {
         setValue("description", currValue)
@@ -53,7 +86,7 @@ const KeepModal = (props: KeepModalProps) => {
                             />
                         </div>
                         <div className={styles.actions}>
-                            <EissaButton label="Save" type="submit" variant="primary" />
+                            <EissaButton label="Done" type="submit" variant="primary" />
                         </div>
                     </form>
                 </div>

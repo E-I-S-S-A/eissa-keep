@@ -13,8 +13,7 @@ const Card = (props: CardProps) => {
     return <div className={styles.card} >
         <div className={styles.card_content} >
             <div className={styles.title}>{keep?.title}</div>
-            <div className={styles.body}>
-                {keep?.description}
+            <div className={styles.body} dangerouslySetInnerHTML={{ __html: keep.description }}>
             </div>
         </div>
 
