@@ -29,7 +29,7 @@ const KeepModal = (props: KeepModalProps) => {
     const { register, handleSubmit, setValue, formState: { isValid }, reset } = useForm<Keep>({
         mode: "all",
     });
-    console.log(keep)
+
     useEffect(() => {
         reset(keep || defaultValues);
     }, [keep]);
@@ -37,8 +37,7 @@ const KeepModal = (props: KeepModalProps) => {
     const onSubmit: SubmitHandler<Keep> = (data) => {
 
         if (!data?.description && !data?.title) {
-            onClose();
-            reset(defaultValues);
+            closeModal();
             return;
         }
 
@@ -62,13 +61,23 @@ const KeepModal = (props: KeepModalProps) => {
 
             return prev;
         })
-        reset(defaultValues)
-        onClose()
+        closeModal()
     };
-
 
     const handleChange = (currValue: string) => {
         setValue("description", currValue)
+    }
+
+    const deleteKeep = () => {
+        setAllKeeps(prev => {
+            return prev.filter(item => item.keepId !== keep?.keepId);
+        })
+        closeModal()
+    }
+
+    const closeModal = () => {
+        onClose()
+        reset(defaultValues)
     }
 
     const ModalContent = () => {
@@ -90,10 +99,10 @@ const KeepModal = (props: KeepModalProps) => {
 
             </form>
             <div className={styles.delete}>
-                <EissaButton type="button" variant="primary" icon={DeleteIcon} padding={0} bg="var(--dark-grey)" borderColor="var(--dark-grey)" />
+                <EissaButton type="button" variant="primary" icon={DeleteIcon} padding={0} bg="var(--dark-grey)" borderColor="var(--dark-grey)" onClick={deleteKeep} />
             </div>
             <div className={styles.close}>
-                <EissaButton type="button" variant="primary" icon={CloseIcon} padding={0} bg="var(--dark-grey)" borderColor="var(--dark-grey)" />
+                <EissaButton type="button" variant="primary" icon={CloseIcon} padding={0} bg="var(--dark-grey)" borderColor="var(--dark-grey)" onClick={closeModal} />
             </div>
         </div>
     }
