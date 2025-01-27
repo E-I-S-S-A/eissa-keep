@@ -6,6 +6,9 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { v4 as uuidv4 } from 'uuid';
+import DoneIcon from "../../../assets/done.svg"
+import DeleteIcon from "../../../assets/delete.svg"
+import CloseIcon from "../../../assets/close.svg"
 
 type KeepModalProps = {
     keep: Keep | null,
@@ -68,27 +71,37 @@ const KeepModal = (props: KeepModalProps) => {
         setValue("description", currValue)
     }
 
+    const ModalContent = () => {
+        return <div className={styles.main_container}>
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+                <div className={styles.fields}>
+                    <EissaInputField name="title" register={register} placeholder="Title" varient="secondary" bg="var(--dark-grey)" fontColor="var(--white)" />
+                    <ReactQuill
+                        theme="snow"
+                        value={keep?.description}
+                        onChange={handleChange}
+                        className={styles.quill}
+                        placeholder="Your Keep here..."
+                    />
+                </div>
+                <div className={styles.actions}>
+                    <EissaButton type="submit" variant="primary" icon={DoneIcon} padding={5} />
+                </div>
+
+            </form>
+            <div className={styles.delete}>
+                <EissaButton type="button" variant="primary" icon={DeleteIcon} padding={0} bg="var(--dark-grey)" borderColor="var(--dark-grey)" />
+            </div>
+            <div className={styles.close}>
+                <EissaButton type="button" variant="primary" icon={CloseIcon} padding={0} bg="var(--dark-grey)" borderColor="var(--dark-grey)" />
+            </div>
+        </div>
+    }
+
+
     return (
         <EissaModal
-            ModalContent={() => (
-                <div className={styles.main_container}>
-                    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                        <div className={styles.fields}>
-                            <EissaInputField name="title" register={register} placeholder="Title" varient="secondary" bg="var(--dark-grey)" fontColor="var(--white)" />
-                            <ReactQuill
-                                theme="snow"
-                                value={keep?.description}
-                                onChange={handleChange}
-                                className={styles.quill}
-                                placeholder="Your Keep here..."
-                            />
-                        </div>
-                        <div className={styles.actions}>
-                            <EissaButton label="Done" type="submit" variant="primary" />
-                        </div>
-                    </form>
-                </div>
-            )}
+            ModalContent={ModalContent}
             isVisible={isModalVisible}
         />
     );

@@ -4,6 +4,7 @@
     border-radius: 8px;
     height: 60%;
     width: 40%;
+    position: relative;
 }
 
 .main_container .form {
@@ -17,4 +18,16 @@
     display: flex;
     gap: 1rem;
     flex-direction: row-reverse;
+}
+
+.delete {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+}
+
+.close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
 }

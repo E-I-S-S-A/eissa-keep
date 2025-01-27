@@ -6,6 +6,7 @@ import { Keep } from "../../models/keep";
 import { EissaButton, EissaModal } from "react-reusable-elements";
 import KeepModal from "./KeepModal/KeepModal";
 import FullScreenInfo from "../../components/FullScreenInfo/FullScreenInfo";
+import AddIcon from "../../assets/add.svg"
 
 const Dashboard = () => {
 
@@ -36,12 +37,12 @@ const Dashboard = () => {
     return <>
         <Navbar />
         <div className={styles.new_keep}>
-            <EissaButton label="╋" onClick={openModal} />
+            <EissaButton icon={AddIcon} onClick={openModal} />
         </div>
         <div className={styles.main_container}>
             {
                 allKeeps.length === 0 ?
-                    <FullScreenInfo message="Add your first keep to get started!" imageType="happy" />
+                    <FullScreenInfo message="Add your keep to get started!" imageType="happy" />
                     :
                     <div className={styles.card_container}>
                         {
