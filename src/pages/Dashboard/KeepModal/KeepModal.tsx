@@ -59,6 +59,7 @@ const KeepModal = (props: KeepModalProps) => {
 
             return prev;
         })
+        reset(defaultValues)
         onClose()
     };
 

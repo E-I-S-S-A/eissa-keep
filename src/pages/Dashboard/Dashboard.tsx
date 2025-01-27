@@ -5,6 +5,7 @@ import styles from "./Dashboard.module.css"
 import { Keep } from "../../models/keep";
 import { EissaButton, EissaModal } from "react-reusable-elements";
 import KeepModal from "./KeepModal/KeepModal";
+import FullScreenInfo from "../../components/FullScreenInfo/FullScreenInfo";
 
 const Dashboard = () => {
 
@@ -38,15 +39,19 @@ const Dashboard = () => {
             <EissaButton label="╋" onClick={openModal} />
         </div>
         <div className={styles.main_container}>
-            <div className={styles.card_container}>
-                {
-                    allKeeps.map((keep) => {
-                        return <div key={keep.keepId} className={styles.card_wrapper} onClick={() => editKeep(keep)}>
-                            <Card keep={keep} />
-                        </div>
-                    })
-                }
-            </div>
+            {
+                allKeeps.length === 0 ?
+                    <FullScreenInfo message="Add your first keep to get started!" imageType="happy" />
+                    :
+                    <div className={styles.card_container}>
+                        {
+                            allKeeps.map((keep) => {
+                                return <div key={keep.keepId} className={styles.card_wrapper} onClick={() => editKeep(keep)}>
+                                    <Card keep={keep} />
+                                </div>
+                            })}
+                    </div>
+            }
         </div>
         <KeepModal isModalVisible={isModalVisible} keep={selectedKeep} onClose={closeModal} setAllKeeps={setAllKeeps} />
     </>
