@@ -35,7 +35,7 @@ const Dashboard = () => {
     }
 
     return <>
-        <Navbar />
+        <Navbar setAllKeeps={setAllKeeps}/>
         <div className={styles.new_keep}>
             <EissaButton icon={AddIcon} onClick={openModal} />
         </div>

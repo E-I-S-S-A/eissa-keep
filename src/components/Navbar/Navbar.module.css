@@ -25,7 +25,22 @@
 }
 
 .search_form {
-    width: 25rem;
+    display: flex;
+    flex-shrink: 1;
+    gap: 1rem;
+}
+
+.clear{
+    opacity: 0;
+    transition: all 0.5s ease;
+    display: flex;
+}
+
+.visible{
+    opacity: 1;
+    height: unset;
+    transform: rotate(360deg);
+
 }
 
 @media screen and (max-width: 700px) {
