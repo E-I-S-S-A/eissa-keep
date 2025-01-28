@@ -10,7 +10,7 @@ const Card = (props: CardProps) => {
 
     const { keep } = props;
 
-    return <div className={styles.card} >
+    return <div className={styles.card} style={{ backgroundColor: keep.backgroundColor }}>
         <div className={styles.card_content} >
             <div className={styles.title}>{keep?.title}</div>
             <div className={styles.body} dangerouslySetInnerHTML={{ __html: keep.description }}>

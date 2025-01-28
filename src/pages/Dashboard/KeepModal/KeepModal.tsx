@@ -35,6 +35,7 @@ const KeepModal = (props: KeepModalProps) => {
 
     useEffect(() => {
         reset(keep || defaultValues);
+        desciptionRef.current = keep?.description || "";
     }, [keep]);
 
     const onSubmit: SubmitHandler<Keep> = (data) => {
@@ -79,13 +80,14 @@ const KeepModal = (props: KeepModalProps) => {
         closeModal()
     }
 
-    const setColor = (color: string) => {
+    const setColor = (color: string | undefined) => {
         setValue("backgroundColor", color)
     }
 
     const closeModal = () => {
         onClose()
-        reset(defaultValues)
+        reset(defaultValues);
+        desciptionRef.current = "";
     }
 
     const ModalContent = () => {
@@ -102,10 +104,10 @@ const KeepModal = (props: KeepModalProps) => {
                     />
                 </div>
                 <div className={styles.actions}>
-                    <EissaButton type="button" variant="primary" icon={DeleteIcon} padding={0} bg="var(--dark-grey)" borderColor="var(--dark-grey)" onClick={deleteKeep} />
+                    <EissaButton type="button" variant="primary" icon={DeleteIcon} padding={0} bg={bg || keep?.backgroundColor || "var(--dark-grey)"} borderColor={bg || keep?.backgroundColor || "var(--dark-grey)"} onClick={deleteKeep} />
                     <div className={styles.colors}>
                         {
-                            colors.map(color => <div key={color} style={{ backgroundColor: color }} className={styles.color} onClick={() => setColor(color)}></div>)
+                            colors.map(color => <div key={color} style={{ backgroundColor: color || "var(--dark-grey)" }} className={styles.color} onClick={() => setColor(color)}></div>)
                         }
                     </div>
                     <EissaButton type="submit" variant="primary" icon={DoneIcon} padding={5} />
@@ -113,7 +115,7 @@ const KeepModal = (props: KeepModalProps) => {
 
             </form>
             <div className={styles.close}>
-                <EissaButton type="button" variant="primary" icon={CloseIcon} padding={0} bg="var(--dark-grey)" borderColor="var(--dark-grey)" onClick={closeModal} />
+                <EissaButton type="button" variant="primary" icon={CloseIcon} padding={0} bg={bg || keep?.backgroundColor || "var(--dark-grey)"} borderColor={bg || keep?.backgroundColor || "var(--dark-grey)"} onClick={closeModal} />
             </div>
         </div>
     }
