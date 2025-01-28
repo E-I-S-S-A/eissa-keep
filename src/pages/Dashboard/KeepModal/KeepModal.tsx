@@ -27,9 +27,11 @@ const defaultValues: Keep = {
 
 const KeepModal = (props: KeepModalProps) => {
     const { keep, isModalVisible, onClose, setAllKeeps } = props;
-    const { register, handleSubmit, setValue, formState: { isValid }, reset } = useForm<Keep>({
+    const { register, handleSubmit, setValue, watch, formState: { isValid }, reset } = useForm<Keep>({
         mode: "all",
     });
+    const bg = watch("backgroundColor")
+    const desciptionRef = useRef<string>("");
 
     useEffect(() => {
         reset(keep || defaultValues);
@@ -66,6 +68,7 @@ const KeepModal = (props: KeepModalProps) => {
     };
 
     const handleChange = (currValue: string) => {
+        desciptionRef.current = currValue;
         setValue("description", currValue)
     }
 
@@ -76,19 +79,23 @@ const KeepModal = (props: KeepModalProps) => {
         closeModal()
     }
 
+    const setColor = (color: string) => {
+        setValue("backgroundColor", color)
+    }
+
     const closeModal = () => {
         onClose()
         reset(defaultValues)
     }
 
     const ModalContent = () => {
-        return <div className={styles.main_container}>
+        return <div className={styles.main_container} style={{ backgroundColor: bg || keep?.backgroundColor }}>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 <div className={styles.fields}>
-                    <EissaInputField name="title" register={register} placeholder="Title" varient="secondary" bg="var(--dark-grey)" fontColor="var(--white)" />
+                    <EissaInputField name="title" register={register} placeholder="Title" varient="secondary" bg={bg || keep?.backgroundColor || "var(--dark-grey)"} fontColor="var(--white)" />
                     <ReactQuill
                         theme="snow"
-                        value={keep?.description}
+                        value={desciptionRef.current}
                         onChange={handleChange}
                         className={styles.quill}
                         placeholder="Your Keep here..."
@@ -98,7 +105,7 @@ const KeepModal = (props: KeepModalProps) => {
                     <EissaButton type="button" variant="primary" icon={DeleteIcon} padding={0} bg="var(--dark-grey)" borderColor="var(--dark-grey)" onClick={deleteKeep} />
                     <div className={styles.colors}>
                         {
-                            colors.map(color => <div style={{ backgroundColor: color }} className={styles.color}></div>)
+                            colors.map(color => <div key={color} style={{ backgroundColor: color }} className={styles.color} onClick={() => setColor(color)}></div>)
                         }
                     </div>
                     <EissaButton type="submit" variant="primary" icon={DoneIcon} padding={5} />
