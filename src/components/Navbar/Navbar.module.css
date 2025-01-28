@@ -16,6 +16,12 @@
     gap: 0.5rem;
 }
 
+.main_conatiner .actions{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .brand_logo {
     height: 3rem;
 }
