@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import DoneIcon from "../../../assets/done.svg"
 import DeleteIcon from "../../../assets/delete.svg"
 import CloseIcon from "../../../assets/close.svg"
+import { colors } from "../../../constants/colors";
 
 type KeepModalProps = {
     keep: Keep | null,
@@ -94,13 +95,16 @@ const KeepModal = (props: KeepModalProps) => {
                     />
                 </div>
                 <div className={styles.actions}>
+                    <EissaButton type="button" variant="primary" icon={DeleteIcon} padding={0} bg="var(--dark-grey)" borderColor="var(--dark-grey)" onClick={deleteKeep} />
+                    <div className={styles.colors}>
+                        {
+                            colors.map(color => <div style={{ backgroundColor: color }} className={styles.color}></div>)
+                        }
+                    </div>
                     <EissaButton type="submit" variant="primary" icon={DoneIcon} padding={5} />
                 </div>
 
             </form>
-            <div className={styles.delete}>
-                <EissaButton type="button" variant="primary" icon={DeleteIcon} padding={0} bg="var(--dark-grey)" borderColor="var(--dark-grey)" onClick={deleteKeep} />
-            </div>
             <div className={styles.close}>
                 <EissaButton type="button" variant="primary" icon={CloseIcon} padding={0} bg="var(--dark-grey)" borderColor="var(--dark-grey)" onClick={closeModal} />
             </div>
