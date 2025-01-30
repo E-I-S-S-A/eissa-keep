@@ -1,7 +1,7 @@
 import { User } from "../entities/User";
 
 const useUserHook = () => {
-    const ACCOUNTS_BACKEND_BASE_URL = `${process.env.REACT_APP_ACCOUNTS_BACKEND_BASE_URL}/accounts`;
+    const ACCOUNTS_BACKEND_BASE_URL = `${process.env.REACT_APP_BACKEND_BASE_URL}/accounts`;
     const ACCOUNTS_CLIENT_BASE_URL = `${process.env.REACT_APP_ACCOUNTS_CLIENT_BASE_URL}`;
     const KEEP_CLIENT_BASE_URL = `${process.env.REACT_APP_KEEP_CLIENT_BASE_URL}`;
 

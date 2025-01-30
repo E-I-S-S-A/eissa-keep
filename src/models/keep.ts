@@ -3,4 +3,5 @@ export interface Keep {
     title: string;
     description: string;
     backgroundColor?: string;
+    createdOn?: number;
 }

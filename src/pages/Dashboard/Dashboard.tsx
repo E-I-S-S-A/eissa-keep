@@ -7,6 +7,7 @@ import { EissaButton, EissaModal } from "react-reusable-elements";
 import KeepModal from "./KeepModal/KeepModal";
 import FullScreenInfo from "../../components/FullScreenInfo/FullScreenInfo";
 import AddIcon from "../../assets/add.svg"
+import useKeepHook from "../../hooks/useKeepHook";
 
 const Dashboard = () => {
 
@@ -14,6 +15,20 @@ const Dashboard = () => {
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
     const [selectedKeep, setSelectedKeep] = useState<Keep | null>(null)
+    const { getKeeps } = useKeepHook();
+
+    useEffect(() => {
+        getMyKeeps()
+    }, [])
+
+    const getMyKeeps = async () => {
+        try {
+            const keeps = await getKeeps(1, 100);
+            setAllKeeps(keeps);
+        } catch (error) {
+            console.log("Error")
+        }
+    }
 
     const editKeep = (keep: Keep) => {
         setSelectedKeep(keep);
@@ -35,7 +50,7 @@ const Dashboard = () => {
     }
 
     return <>
-        <Navbar setAllKeeps={setAllKeeps}/>
+        <Navbar setAllKeeps={setAllKeeps} />
         <div className={styles.new_keep}>
             <EissaButton icon={AddIcon} onClick={openModal} />
         </div>

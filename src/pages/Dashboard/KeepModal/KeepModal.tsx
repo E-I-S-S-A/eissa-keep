@@ -10,6 +10,7 @@ import DoneIcon from "../../../assets/done.svg"
 import DeleteIcon from "../../../assets/delete.svg"
 import CloseIcon from "../../../assets/close.svg"
 import { colors } from "../../../constants/colors";
+import useKeepHook from "../../../hooks/useKeepHook";
 
 type KeepModalProps = {
     keep: Keep | null,
@@ -37,31 +38,41 @@ const KeepModal = (props: KeepModalProps) => {
         reset(keep || defaultValues);
         desciptionRef.current = keep?.description || "";
     }, [keep]);
+    const { addKeep } = useKeepHook();
 
-    const onSubmit: SubmitHandler<Keep> = (data) => {
+    const onSubmit: SubmitHandler<Keep> = async (data) => {
 
         if (!data?.description && !data?.title) {
             closeModal();
             return;
         }
 
+        let isExists = true;
+        if (!data.keepId) {
+            isExists = false;
+            data.keepId = uuidv4();
+        }
+        const addRes = await addKeep(data);
+        if (!addRes) {
+            console.log("Error");
+            closeModal()
+            return;
+        }
+
         setAllKeeps(prev => {
-            let isFound = false;
+            if (!isExists) {
+                return [data, ...prev]
+            }
 
             for (let keep of prev) {
                 if (keep.keepId === data.keepId) {
                     keep.description = data.description;
                     keep.title = data.title;
                     keep.backgroundColor = data.backgroundColor;
-                    isFound = true;
                     break;
                 }
             }
 
-            if (!isFound) {
-                data.keepId = uuidv4();
-                return [data, ...prev]
-            }
 
             return prev;
         })
