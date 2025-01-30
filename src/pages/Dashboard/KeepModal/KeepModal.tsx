@@ -52,10 +52,17 @@ const KeepModal = (props: KeepModalProps) => {
             isExists = false;
             data.keepId = uuidv4();
         }
-        const addRes = await addKeep(data);
-        if (!addRes) {
-            console.log("Error");
-            closeModal()
+
+        try {
+            const addRes = await addKeep(data);
+            if (!addRes) {
+                console.log("Error");
+                closeModal()
+                return;
+            }
+        }
+        catch {
+            closeModal();
             return;
         }
 
