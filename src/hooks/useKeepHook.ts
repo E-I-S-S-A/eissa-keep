@@ -19,10 +19,9 @@ const useKeepHook = () => {
             }
         );
         if (response.status === 200) {
-            const keeps = await response.json();
-            return keeps;
+            return response.json();
         } else {
-            throw new Error("Failed to fetch");
+            throw new Error("Failed to fetch keeps");
         }
     };
 
@@ -38,19 +37,45 @@ const useKeepHook = () => {
         if (response.status === 200) {
             return true;
         } else {
-            throw new Error("Failed to fetch");
+            throw new Error("Failed to add keep");
         }
     };
 
-    const updateKeep = (keep: Keep): boolean => {
-        return true;
+    const updateKeep = async (keep: Keep): Promise<boolean> => {
+        const response = await fetch(`${KEEP_BACKEND_BASE_URL}/update`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(keep),
+        });
+        if (response.status === 200) {
+            return true;
+        } else {
+            throw new Error("Failed to update keep");
+        }
     };
 
-    const deleteKeep = (keepId: string): boolean => {
-        return true;
+    const deleteKeep = async (keepId: string): Promise<boolean> => {
+        const response = await fetch(
+            `${KEEP_BACKEND_BASE_URL}/delete/${keepId}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            }
+        );
+        if (response.status === 200) {
+            return true;
+        } else {
+            throw new Error("Failed to delete keep");
+        }
     };
 
-    return { getKeeps, addKeep };
+    return { getKeeps, addKeep, updateKeep, deleteKeep };
 };
 
 export default useKeepHook;

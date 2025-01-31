@@ -38,7 +38,7 @@ const KeepModal = (props: KeepModalProps) => {
         reset(keep || defaultValues);
         desciptionRef.current = keep?.description || "";
     }, [keep]);
-    const { addKeep } = useKeepHook();
+    const { addKeep, deleteKeep, updateKeep } = useKeepHook();
 
     const onSubmit: SubmitHandler<Keep> = async (data) => {
 
@@ -54,8 +54,14 @@ const KeepModal = (props: KeepModalProps) => {
         }
 
         try {
-            const addRes = await addKeep(data);
-            if (!addRes) {
+            let res = false;
+            if (isExists) {
+                res = await updateKeep(data);
+            }
+            else {
+                res = await addKeep(data);
+            }
+            if (!res) {
                 console.log("Error");
                 closeModal()
                 return;
@@ -79,8 +85,6 @@ const KeepModal = (props: KeepModalProps) => {
                     break;
                 }
             }
-
-
             return prev;
         })
         closeModal()
@@ -91,7 +95,14 @@ const KeepModal = (props: KeepModalProps) => {
         setValue("description", currValue)
     }
 
-    const deleteKeep = () => {
+    const deleteMyKeep = async () => {
+
+        if (!keep?.keepId) return;
+        const res = await deleteKeep(keep.keepId);
+        if (!res) {
+            return;
+        }
+
         setAllKeeps(prev => {
             return prev.filter(item => item.keepId !== keep?.keepId);
         })
@@ -122,7 +133,7 @@ const KeepModal = (props: KeepModalProps) => {
                     />
                 </div>
                 <div className={styles.actions}>
-                    <EissaButton type="button" variant="primary" icon={DeleteIcon} padding={0} bg={bg || keep?.backgroundColor || "var(--dark-grey)"} borderColor={bg || keep?.backgroundColor || "var(--dark-grey)"} onClick={deleteKeep} />
+                    <EissaButton type="button" variant="primary" icon={DeleteIcon} padding={0} bg={bg || keep?.backgroundColor || "var(--dark-grey)"} borderColor={bg || keep?.backgroundColor || "var(--dark-grey)"} onClick={deleteMyKeep} />
                     <div className={styles.colors}>
                         {
                             colors.map(color => <div key={color} style={{ backgroundColor: color || "var(--dark-grey)" }} className={styles.color} onClick={() => setColor(color)}></div>)
